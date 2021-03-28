@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>865</width>
+    <height>753</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="1" column="3">
+    <widget class="QLabel" name="date_label">
+     <property name="text">
+      <string>공사일자</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="5">
+    <widget class="QPushButton" name="load_button">
+     <property name="text">
+      <string>엑셀 가져오기</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="name_lineedit"/>
+   </item>
+   <item row="1" column="4">
+    <widget class="QLineEdit" name="date_lineedit"/>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="company_lineedit"/>
+   </item>
+   <item row="2" column="4">
+    <widget class="QLineEdit" name="manager_lineedit"/>
+   </item>
+   <item row="3" column="0" colspan="5">
+    <widget class="QTableWidget" name="sheet_tablewidget"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="company_label">
+     <property name="text">
+      <string>시공업체</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="name_label">
+     <property name="text">
+      <string>공사명</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3">
+    <widget class="QLabel" name="manager_label">
+     <property name="text">
+      <string>담당자</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" colspan="5">
+    <widget class="QPushButton" name="save_button">
+     <property name="text">
+      <string>엑셀 저장하기</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
