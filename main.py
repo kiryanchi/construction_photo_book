@@ -3,15 +3,30 @@ import openpyxl
 from PyQt5 import uic
 from PyQt5.QtGui import QKeySequence
 from PyQt5.QtWidgets import QWidget, QApplication, QPushButton, QLineEdit, QLabel, QTableWidget, QFileDialog, \
-    QMessageBox, QAbstractItemView, QHeaderView, QShortcut
+    QMessageBox, QAbstractItemView, QHeaderView, QShortcut, QTabWidget
 from openpyxl import Workbook
 from PyQt5.QtCore import Qt, QSize
 
 main_ui = uic.loadUiType("cpb.ui")[0]
 
 
-# class SheetTable(QTableWidget):
-#     def __init__(self):
+class SheetTable(QTableWidget):
+    def __init__(self):
+        # TableWidget Config
+        super().__init__(0,3)
+        self.setAcceptDrops(True)
+        self.setSelectionMode(QAbstractItemView.SingleSelection)
+        self.setAlternatingRowColors(True)
+        self.setFocusPolicy(Qt.StrongFocus)
+        self.verticalHeader().setDefaultSectionSize(220)
+        self.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
+        self.setHorizontalHeaderLabels(['작업 전 사진', '전주 번호', '작업 후 사진'])
+        self.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
+
+        # copyShortcut = QShortcut(QKeySequence.Copy, self)
+        # pasteShortcut = QShortcut(QKeySequence.Paste, self)
+
 
 
 
@@ -26,7 +41,7 @@ class MainWindow(QWidget, main_ui):
     manager_lineedit: QLineEdit
     load_button: QPushButton
     save_button: QPushButton
-    sheet_tablewidget: QTableWidget
+    sheet_tabwidget: QTabWidget
     wb: Workbook
 
     def __init__(self):
@@ -36,20 +51,6 @@ class MainWindow(QWidget, main_ui):
 
         self.load_button.clicked.connect(self.load_excel)
 
-        # TableWidget Config
-        self.sheet_tablewidget.setAcceptDrops(True)
-        self.sheet_tablewidget.setSelectionMode(QAbstractItemView.SingleSelection)
-        self.sheet_tablewidget.setAlternatingRowColors(True)
-        self.sheet_tablewidget.setFocusPolicy(Qt.StrongFocus)
-        self.sheet_tablewidget.verticalHeader().setDefaultSectionSize(220)
-        self.sheet_tablewidget.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        self.sheet_tablewidget.verticalHeader().setSectionResizeMode(QHeaderView.Fixed)
-        self.sheet_tablewidget.setHorizontalHeaderLabels(['작업 전', '전주 번호', '작업 후'])
-        self.sheet_tablewidget.setVerticalScrollMode(QAbstractItemView.ScrollPerPixel)
-
-        # copyShortcut = QShortcut(QKeySequence.Copy, self)
-        # pasteShortcut = QShortcut(QKeySequence.Paste, self)
-
 
     def load_excel(self):
         fname, _ = QFileDialog.getOpenFileName(self, '엑셀 파일 선택', './', "Excel File (*.xlsx)")
@@ -58,6 +59,8 @@ class MainWindow(QWidget, main_ui):
             return
         else:
             self.wb = openpyxl.load_workbook(fname)
+            for sheet_name in self.wb.sheetnames:
+                self.sheet_tabwidget.addTab()
             sheet = self.wb['공정별사진대장']
             name: str = sheet['B2'].value
             company: str = sheet['B3'].value
@@ -83,7 +86,7 @@ class MainWindow(QWidget, main_ui):
         self.manager_label.setEnabled(False)
         self.manager_lineedit.setEnabled(False)
         self.save_button.setEnabled(False)
-        self.sheet_tablewidget.setEnabled(False)
+        # self.sheet_tablewidget.setEnabled(False)
 
     def enabled(self):
         self.name_label.setEnabled(True)
@@ -95,7 +98,7 @@ class MainWindow(QWidget, main_ui):
         self.manager_label.setEnabled(True)
         self.manager_lineedit.setEnabled(True)
         self.save_button.setEnabled(True)
-        self.sheet_tablewidget.setEnabled(True)
+        # self.sheet_tablewidget.setEnabled(True)
 
 
 if __name__ == '__main__':
