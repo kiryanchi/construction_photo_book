@@ -51,7 +51,6 @@ class MainWindow(QWidget, main_ui):
 
         self.load_button.clicked.connect(self.load_excel)
 
-
     def load_excel(self):
         fname, _ = QFileDialog.getOpenFileName(self, '엑셀 파일 선택', './', "Excel File (*.xlsx)")
 
@@ -59,8 +58,9 @@ class MainWindow(QWidget, main_ui):
             return
         else:
             self.wb = openpyxl.load_workbook(fname)
-            for sheet_name in self.wb.sheetnames:
-                self.sheet_tabwidget.addTab()
+            for sheetname in self.wb.sheetnames:
+                new_tab = SheetTable()
+                self.sheet_tabwidget.addTab(new_tab, sheetname)
             sheet = self.wb['공정별사진대장']
             name: str = sheet['B2'].value
             company: str = sheet['B3'].value
@@ -73,7 +73,6 @@ class MainWindow(QWidget, main_ui):
             self.manager_lineedit.setText(manager)
 
             self.enabled()
-            # self.name_lineedit.setText()
 
 
     def disabled(self):
@@ -86,6 +85,7 @@ class MainWindow(QWidget, main_ui):
         self.manager_label.setEnabled(False)
         self.manager_lineedit.setEnabled(False)
         self.save_button.setEnabled(False)
+        self.sheet_tabwidget.setEnabled(False)
         # self.sheet_tablewidget.setEnabled(False)
 
     def enabled(self):
@@ -98,6 +98,7 @@ class MainWindow(QWidget, main_ui):
         self.manager_label.setEnabled(True)
         self.manager_lineedit.setEnabled(True)
         self.save_button.setEnabled(True)
+        self.sheet_tabwidget.setEnabled(True)
         # self.sheet_tablewidget.setEnabled(True)
 
 
