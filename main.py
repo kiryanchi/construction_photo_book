@@ -1,3 +1,4 @@
+import string
 import sys
 import openpyxl
 from PyQt5 import uic
@@ -8,6 +9,43 @@ from openpyxl import Workbook
 from PyQt5.QtCore import Qt, QSize
 
 main_ui = uic.loadUiType("cpb.ui")[0]
+
+
+class SheetImages:
+    def __init__(self, sheet):
+        copy_sheet_images = sheet._images[:]
+        self._images = {}
+        self._images_data = {}
+        for image in copy_sheet_images:
+            row = image.anchor._from.row + 1
+            col = string.ascii_uppercase[image.anchor._from.col]
+            cell = f'{col}{row}'
+
+            self._images[cell] = image
+
+    def load(self, cell):
+        """
+        사진 데이터를 불러와주는 함수
+        :param cell:
+        :return: self._images[cell]._data ( == image._data )
+        바이트 데이터를 반환한다.
+        """
+        if cell in self._images:
+            return self._images[cell]._data
+
+    def delete(self, cell):
+        """
+        원하는 셀에 있는 사진을 삭제하는 함수
+        :param cell:
+        :return:
+        """
+        if cell in self._images:
+
+
+class TableInnerImage(QWidget):
+    def __init__(self):
+        super().__init__()
+
 
 
 class SheetTable(QTableWidget):
